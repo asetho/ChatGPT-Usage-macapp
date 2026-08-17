@@ -20,7 +20,21 @@
             <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
                     <Grid Margin="0,0,0,14">
-                        <TextBlock Text="Usage remaining" FontSize="21" FontWeight="SemiBold" Foreground="#F0F1F4" />
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Width="28" Height="28" Margin="0,0,10,0">
+                                <Canvas Width="24" Height="24">
+                                    <Ellipse Canvas.Left="1.5" Canvas.Top="1.5" Width="21" Height="21" Stroke="#AEB4BE" StrokeThickness="1.7" />
+                                    <Ellipse Canvas.Left="11" Canvas.Top="3.5" Width="2" Height="2" Fill="#AEB4BE" />
+                                    <Ellipse Canvas.Left="4.5" Canvas.Top="7" Width="2" Height="2" Fill="#AEB4BE" />
+                                    <Ellipse Canvas.Left="4.5" Canvas.Top="15" Width="2" Height="2" Fill="#AEB4BE" />
+                                    <Ellipse Canvas.Left="17.5" Canvas.Top="7" Width="2" Height="2" Fill="#AEB4BE" />
+                                    <Ellipse Canvas.Left="17.5" Canvas.Top="15" Width="2" Height="2" Fill="#AEB4BE" />
+                                    <Line X1="12" Y1="12" X2="14.5" Y2="6.5" Stroke="#AEB4BE" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                                    <Ellipse Canvas.Left="10.5" Canvas.Top="10.5" Width="3" Height="3" Fill="#AEB4BE" />
+                                </Canvas>
+                            </Viewbox>
+                            <TextBlock Text="Usage remaining" FontSize="21" FontWeight="SemiBold" Foreground="#F0F1F4" VerticalAlignment="Center" />
+                        </StackPanel>
                         <Button Content="×" Click="Close_Click" HorizontalAlignment="Right" FontSize="20" Padding="4,-3" Background="Transparent" BorderThickness="0" Foreground="#B4B8C0" />
                     </Grid>
 
