@@ -26,6 +26,9 @@ Source: "InstallerPayload\*"; DestDir: "{app}"; Flags: ignoreversion recursesubd
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\Assets\ChatGPTUsage.ico"; IconIndex: 0
 
+[InstallDelete]
+Type: files; Name: "{userprograms}\ChatGPT Usage.lnk"
+
 [Registry]
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "ChatGPT Usage"; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletevalue
 
