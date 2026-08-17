@@ -9,13 +9,19 @@ Add-Type -AssemblyName System.Drawing
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $sourcePath = Join-Path $repoRoot 'CodexUsage\Assets.xcassets\AppIcon.appiconset\AppIcon-512@2x.png'
+$smallSourcePath = Join-Path $repoRoot 'Windows\Assets\ChatGPTUsage-small.png'
 if (!(Test-Path $sourcePath)) {
     throw "The macOS AppIcon source was not found: $sourcePath"
 }
+if (!(Test-Path $smallSourcePath)) {
+    throw "The Windows small-icon source was not found: $smallSourcePath"
+}
 
 $source = [System.Drawing.Image]::FromFile($sourcePath)
+$smallSource = [System.Drawing.Image]::FromFile($smallSourcePath)
 try {
     function New-IconFrame([int]$pixelSize) {
+        $frameSource = if ($pixelSize -le 64) { $smallSource } else { $source }
         $bitmap = [System.Drawing.Bitmap]::new(
             $pixelSize,
             $pixelSize,
@@ -28,15 +34,31 @@ try {
             $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
             $graphics.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
             $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
-            $inset = [Math]::Max(0.5, $pixelSize * 0.045)
-            $cornerDiameter = $pixelSize * 0.42
+            # Small Windows shell sizes use optically simplified artwork. The
+            # full-size macOS source keeps its transparent canvas cropped away.
+            $sourceInset = if ($pixelSize -le 64) {
+                0
+            }
+            else {
+                [int][Math]::Round([Math]::Min($frameSource.Width, $frameSource.Height) * 0.045)
+            }
+            $sourceSize = [int][Math]::Min($frameSource.Width, $frameSource.Height) - ($sourceInset * 2)
+            $inset = 0.0
+            $cornerDiameter = $pixelSize * 0.38
             $mask.AddArc($inset, $inset, $cornerDiameter, $cornerDiameter, 180, 90)
             $mask.AddArc($pixelSize - $inset - $cornerDiameter, $inset, $cornerDiameter, $cornerDiameter, 270, 90)
             $mask.AddArc($pixelSize - $inset - $cornerDiameter, $pixelSize - $inset - $cornerDiameter, $cornerDiameter, $cornerDiameter, 0, 90)
             $mask.AddArc($inset, $pixelSize - $inset - $cornerDiameter, $cornerDiameter, $cornerDiameter, 90, 90)
             $mask.CloseFigure()
             $graphics.SetClip($mask)
-            $graphics.DrawImage($source, [System.Drawing.Rectangle]::new(0, 0, $pixelSize, $pixelSize))
+            $graphics.DrawImage(
+                $frameSource,
+                [System.Drawing.Rectangle]::new(0, 0, $pixelSize, $pixelSize),
+                $sourceInset,
+                $sourceInset,
+                $sourceSize,
+                $sourceSize,
+                [System.Drawing.GraphicsUnit]::Pixel)
 
             $stream = [System.IO.MemoryStream]::new()
             try {
@@ -85,5 +107,6 @@ try {
     }
 }
 finally {
+    $smallSource.Dispose()
     $source.Dispose()
 }
