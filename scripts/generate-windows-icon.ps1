@@ -21,11 +21,21 @@ try {
             $pixelSize,
             [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+        $mask = [System.Drawing.Drawing2D.GraphicsPath]::new()
         try {
             $graphics.Clear([System.Drawing.Color]::Transparent)
             $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
             $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
             $graphics.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
+            $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
+            $inset = [Math]::Max(0.5, $pixelSize * 0.045)
+            $cornerDiameter = $pixelSize * 0.42
+            $mask.AddArc($inset, $inset, $cornerDiameter, $cornerDiameter, 180, 90)
+            $mask.AddArc($pixelSize - $inset - $cornerDiameter, $inset, $cornerDiameter, $cornerDiameter, 270, 90)
+            $mask.AddArc($pixelSize - $inset - $cornerDiameter, $pixelSize - $inset - $cornerDiameter, $cornerDiameter, $cornerDiameter, 0, 90)
+            $mask.AddArc($inset, $pixelSize - $inset - $cornerDiameter, $cornerDiameter, $cornerDiameter, 90, 90)
+            $mask.CloseFigure()
+            $graphics.SetClip($mask)
             $graphics.DrawImage($source, [System.Drawing.Rectangle]::new(0, 0, $pixelSize, $pixelSize))
 
             $stream = [System.IO.MemoryStream]::new()
@@ -38,6 +48,7 @@ try {
             }
         }
         finally {
+            $mask.Dispose()
             $graphics.Dispose()
             $bitmap.Dispose()
         }

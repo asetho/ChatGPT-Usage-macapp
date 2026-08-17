@@ -1,4 +1,5 @@
 using Forms = System.Windows.Forms;
+using System.Threading;
 using System.Windows;
 
 namespace ChatGPTUsage.Windows;
@@ -8,9 +9,19 @@ public partial class App : System.Windows.Application
     private Forms.NotifyIcon? notifyIcon;
     private MainWindow? mainWindow;
     private UsageWidget? usageWidget;
+    private Mutex? instanceMutex;
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        instanceMutex = new Mutex(initiallyOwned: true, name: @"Local\ChatGPTUsage.Windows", createdNew: out var isFirstInstance);
+        if (!isFirstInstance)
+        {
+            instanceMutex.Dispose();
+            instanceMutex = null;
+            Shutdown();
+            return;
+        }
+
         base.OnStartup(e);
 
         var usage = new UsageViewModel();
@@ -62,6 +73,8 @@ public partial class App : System.Windows.Application
     protected override void OnExit(ExitEventArgs e)
     {
         notifyIcon?.Dispose();
+        instanceMutex?.ReleaseMutex();
+        instanceMutex?.Dispose();
         base.OnExit(e);
     }
 }
