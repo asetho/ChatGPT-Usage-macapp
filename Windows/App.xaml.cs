@@ -1,6 +1,7 @@
 using Forms = System.Windows.Forms;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace ChatGPTUsage.Windows;
 
@@ -9,6 +10,7 @@ public partial class App : System.Windows.Application
     private Forms.NotifyIcon? notifyIcon;
     private MainWindow? mainWindow;
     private UsageWidget? usageWidget;
+    private DispatcherTimer? refreshTimer;
     private Mutex? instanceMutex;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -60,6 +62,13 @@ public partial class App : System.Windows.Application
             }
         };
 
+        refreshTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMinutes(1)
+        };
+        refreshTimer.Tick += (_, _) => _ = usage.RefreshInBackgroundAsync();
+        refreshTimer.Start();
+
         _ = usage.RefreshAsync();
     }
 
@@ -72,6 +81,7 @@ public partial class App : System.Windows.Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        refreshTimer?.Stop();
         notifyIcon?.Dispose();
         instanceMutex?.ReleaseMutex();
         instanceMutex?.Dispose();

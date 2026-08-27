@@ -15,7 +15,7 @@ internal static class CodexUsageService
     public static async Task<UsageSnapshot> FetchAsync(CancellationToken cancellationToken = default)
     {
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeout.CancelAfter(TimeSpan.FromSeconds(15));
+        timeout.CancelAfter(TimeSpan.FromSeconds(30));
         var executable = FindExecutable();
         var startInfo = new ProcessStartInfo
         {
@@ -47,7 +47,10 @@ internal static class CodexUsageService
             throw new InvalidOperationException("Codex CLI was not found. Install Codex or set CODEX_EXECUTABLE.", error);
         }
 
-        var standardError = process.StandardError.ReadToEndAsync(timeout.Token);
+        // Do not cancel the stderr drain with the request timeout. The process
+        // is terminated in finally, which closes the stream; canceling this
+        // task can otherwise mask the useful timeout error below.
+        var standardError = process.StandardError.ReadToEndAsync();
         try
         {
             await WriteAsync(process.StandardInput, new
