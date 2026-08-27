@@ -36,4 +36,18 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
-Write-Output "Created $(Join-Path $windowsRoot "dist\ChatGPTUsage-Setup-$version.exe")"
+$installer = Join-Path $windowsRoot "dist\ChatGPTUsage-Setup-$version.exe"
+$packages = Get-ChildItem (Join-Path $windowsRoot 'dist') -File -Filter 'ChatGPTUsage-Setup-*.exe' |
+    ForEach-Object {
+        if ($_.BaseName -match '^ChatGPTUsage-Setup-(\d+\.\d+\.\d+)$') {
+            [PSCustomObject]@{ File = $_; Version = [version]$Matches[1] }
+        }
+    } |
+    Sort-Object Version -Descending
+
+$packages | Select-Object -Skip 3 | ForEach-Object {
+    Remove-Item $_.File.FullName -Force
+    Write-Output "Removed old package $($_.File.FullName)"
+}
+
+Write-Output "Created $installer"

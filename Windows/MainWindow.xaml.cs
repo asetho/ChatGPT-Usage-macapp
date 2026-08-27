@@ -15,6 +15,7 @@ public partial class MainWindow : Window
 
     public void ShowNearBottomRight()
     {
+        _ = ((UsageViewModel)DataContext).RefreshAsync();
         Left = SystemParameters.WorkArea.Right - Width - 16;
         Top = SystemParameters.WorkArea.Bottom - Height - 16;
         Show();

@@ -34,22 +34,35 @@ public sealed class UsageViewModel : INotifyPropertyChanged
     public Visibility TokenUsageVisibility { get => tokenUsageVisibility; private set => Set(ref tokenUsageVisibility, value); }
     public string TrayText => $"ChatGPT Usage: {FiveHourRemaining} remaining";
 
-    public async Task RefreshAsync()
+    public Task RefreshAsync() => RefreshAsync(showErrors: true);
+
+    public Task RefreshInBackgroundAsync() => RefreshAsync(showErrors: false);
+
+    private async Task RefreshAsync(bool showErrors)
     {
         if (isRefreshing) return;
 
         isRefreshing = true;
-        RefreshStatus = "Refreshing…";
-        ErrorMessage = "";
+        if (showErrors)
+        {
+            RefreshStatus = "Refreshing…";
+            ErrorMessage = "";
+        }
         try
         {
             ApplySnapshot(await CodexUsageService.FetchAsync());
+            ErrorMessage = "";
             RefreshStatus = "Updated just now";
         }
         catch (Exception error)
         {
-            ErrorMessage = error.Message;
-            RefreshStatus = "Unavailable";
+            if (showErrors || FiveHourRemaining == "—")
+            {
+                ErrorMessage = error is TimeoutException
+                    ? "Refresh timed out. It will retry automatically."
+                    : error.Message;
+                RefreshStatus = "Unavailable";
+            }
         }
         finally
         {

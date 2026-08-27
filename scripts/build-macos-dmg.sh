@@ -1,5 +1,6 @@
 #!/bin/zsh
 set -euo pipefail
+setopt numeric_glob_sort
 
 root="${0:A:h:h}"
 version="$(tr -d '[:space:]' < "$root/VERSION")"
@@ -33,4 +34,13 @@ mkdir -p "$output_dir"
 dmg="$output_dir/ChatGPTUsage-$version.dmg"
 hdiutil create -volname "ChatGPT Usage" -srcfolder "$staging" -ov -format UDZO "$dmg"
 hdiutil verify "$dmg"
+
+packages=("$output_dir"/ChatGPTUsage-<->.<->.<->.dmg(N))
+if (( ${#packages} > 3 )); then
+  for package in "${packages[@]:0:${#packages}-3}"; do
+    rm -f "$package"
+    print "Removed old package $package"
+  done
+fi
+
 print "Created $dmg"
