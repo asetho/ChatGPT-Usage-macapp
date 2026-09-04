@@ -142,6 +142,15 @@ internal static class CodexUsageService
         var configured = Environment.GetEnvironmentVariable("CODEX_EXECUTABLE");
         if (!string.IsNullOrWhiteSpace(configured) && File.Exists(configured)) return configured;
 
+        var standaloneCodex = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Programs",
+            "OpenAI",
+            "Codex",
+            "bin",
+            "codex.exe");
+        if (File.Exists(standaloneCodex)) return standaloneCodex;
+
         var npmCodex = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "npm",
