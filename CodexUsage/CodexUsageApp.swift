@@ -18,7 +18,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private static let statusFont = NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .regular)
 
     private var statusItem: NSStatusItem?
-    private lazy var statusContentView = StatusContentView(font: Self.statusFont)
     private let popover = NSPopover()
     private var snapshotObserver: AnyCancellable?
 
@@ -58,17 +57,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         button.target = self
         button.action = #selector(handleStatusItemClick(_:))
         button.sendAction(on: [.leftMouseUp])
-        button.title = ""
-        button.image = nil
-        button.imagePosition = .noImage
-
-        statusContentView.setIcon(loadChatGPTMenuBarIcon())
-        statusContentView.translatesAutoresizingMaskIntoConstraints = false
-        button.addSubview(statusContentView)
-        NSLayoutConstraint.activate([
-            statusContentView.centerXAnchor.constraint(equalTo: button.centerXAnchor),
-            statusContentView.centerYAnchor.constraint(equalTo: button.centerYAnchor)
-        ])
+        button.font = Self.statusFont
+        let icon = loadChatGPTMenuBarIcon()?.copy() as? NSImage
+        icon?.size = NSSize(width: 18, height: 18)
+        icon?.isTemplate = true
+        button.image = icon
+        button.imagePosition = .imageLeading
+        button.imageHugsTitle = true
 
         let controller = NSHostingController(
             rootView: UsageMenuView().environmentObject(UsageStore.shared)
@@ -90,13 +85,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateStatusItem() {
         let percentage = UsageStore.shared.menuBarPercentage
-        guard let statusItem, let button = statusItem.button else { return }
+        guard let button = statusItem?.button else { return }
 
-        statusContentView.percentage = percentage
+        // Let AppKit style the title and template icon together on inactive menu bars.
+        button.title = percentage
         button.toolTip = "ChatGPT 5-hour usage: \(percentage) remaining. Double-click to open ChatGPT."
         button.setAccessibilityLabel("ChatGPT 5-hour usage, \(percentage) remaining")
-
-        statusItem.length = ceil(statusContentView.fittingWidth)
     }
 
     @objc private func handleStatusItemClick(_ sender: NSStatusBarButton) {
@@ -182,75 +176,4 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.activate(ignoringOtherApps: true)
     }
 #endif
-}
-
-private final class StatusContentView: NSView {
-    private static let iconSize: CGFloat = 18
-    private static let spacing: CGFloat = 3
-
-    private let iconView = NSImageView()
-    private let percentageLabel = NSTextField(labelWithString: "")
-    private let stackView = NSStackView()
-
-    var percentage: String {
-        get { percentageLabel.stringValue }
-        set {
-            percentageLabel.stringValue = newValue
-            invalidateIntrinsicContentSize()
-        }
-    }
-
-    var fittingWidth: CGFloat {
-        let iconWidth = iconView.isHidden ? 0 : Self.iconSize + Self.spacing
-        return iconWidth + percentageLabel.intrinsicContentSize.width
-    }
-
-    override var intrinsicContentSize: NSSize {
-        NSSize(
-            width: fittingWidth,
-            height: max(Self.iconSize, percentageLabel.intrinsicContentSize.height)
-        )
-    }
-
-    init(font: NSFont) {
-        super.init(frame: .zero)
-
-        iconView.imageScaling = .scaleProportionallyDown
-        iconView.translatesAutoresizingMaskIntoConstraints = false
-        iconView.isHidden = true
-
-        percentageLabel.font = font
-        percentageLabel.textColor = .labelColor
-
-        stackView.orientation = .horizontal
-        stackView.alignment = .centerY
-        stackView.spacing = Self.spacing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(iconView)
-        stackView.addArrangedSubview(percentageLabel)
-        addSubview(stackView)
-
-        NSLayoutConstraint.activate([
-            iconView.widthAnchor.constraint(equalToConstant: Self.iconSize),
-            iconView.heightAnchor.constraint(equalToConstant: Self.iconSize),
-            stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
-    }
-
-    required init?(coder: NSCoder) {
-        nil
-    }
-
-    func setIcon(_ image: NSImage?) {
-        let templateImage = image?.copy() as? NSImage
-        templateImage?.isTemplate = true
-        iconView.image = templateImage
-        iconView.isHidden = templateImage == nil
-        invalidateIntrinsicContentSize()
-    }
-
-    override func hitTest(_ point: NSPoint) -> NSView? {
-        nil
-    }
 }
