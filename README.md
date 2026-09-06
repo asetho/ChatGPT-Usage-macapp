@@ -10,7 +10,7 @@ The app launches the locally installed `codex app-server` and reuses Codex's exi
 
 ## Installation and privacy
 
-Download only from [this repository](https://github.com/aaronwhippo/ChatGPT-Usage-macapp). Compare the download with its matching `.sha256` file before opening it; instructions are in [UNSIGNED-INSTALL.txt](UNSIGNED-INSTALL.txt). A checksum detects a mismatch but is not a publisher signature or a malware check.
+Download only from [this repository](https://github.com/asetho/ChatGPT-Usage-macapp). Compare the download with its matching `.sha256` file before opening it; instructions are in [UNSIGNED-INSTALL.txt](UNSIGNED-INSTALL.txt). A checksum detects a mismatch but is not a publisher signature or a malware check.
 
 The app requires a working, signed-in Codex CLI for the same user account. Windows setup offers to install the official CLI if it cannot find one; signing in is a separate step. That option downloads and runs OpenAI's current installer over HTTPS, so its contents can change independently of this app. You can decline it and install Codex yourself. Only set `CODEX_EXECUTABLE` to a binary you trust.
 

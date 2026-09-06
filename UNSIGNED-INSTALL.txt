@@ -6,7 +6,7 @@ signing service is used. Your operating system may warn or refuse to run it.
 These instructions and any source review are not a guarantee of safety.
 
 Only proceed if you trust the project and the exact file you downloaded:
-https://github.com/aaronwhippo/ChatGPT-Usage-macapp
+https://github.com/asetho/ChatGPT-Usage-macapp
 
 VERIFY YOUR DOWNLOAD FIRST
 
@@ -61,5 +61,5 @@ an unexpected prompt. The app asks the local CLI for usage data and does
 not itself read or save sign-in tokens. Codex has its own network, storage,
 and privacy behavior.
 
-Privacy: https://github.com/aaronwhippo/ChatGPT-Usage-macapp/blob/main/PRIVACY.md
-Security: https://github.com/aaronwhippo/ChatGPT-Usage-macapp/blob/main/SECURITY.md
+Privacy: https://github.com/asetho/ChatGPT-Usage-macapp/blob/main/PRIVACY.md
+Security: https://github.com/asetho/ChatGPT-Usage-macapp/blob/main/SECURITY.md
