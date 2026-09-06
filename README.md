@@ -45,4 +45,4 @@ Before publishing, follow the [release checklist](RELEASE-CHECKLIST.md). Buildin
 
 ## License
 
-The project source is available under the [MIT License](LICENSE). The license covers only material the copyright holder has authority to license; third-party names, trademarks, and artwork remain subject to their respective owners' rights.
+The project source is available under the [MIT License](LICENSE), copyright 2026 `asetho™`. See the [trademark notice](TRADEMARKS.md) for `asetho` branding, third-party marks, and legal information. The license covers only material the copyright holder has authority to license; third-party names, trademarks, and artwork remain subject to their respective owners' rights.
