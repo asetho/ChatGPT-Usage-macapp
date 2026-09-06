@@ -1,0 +1,65 @@
+CHATGPT USAGE - UNSIGNED INSTALLATION NOTICE
+
+This is unofficial community software, not an OpenAI product. Downloads are
+not publisher-signed, and the Mac app is not notarized by Apple. No paid
+signing service is used. Your operating system may warn or refuse to run it.
+These instructions and any source review are not a guarantee of safety.
+
+Only proceed if you trust the project and the exact file you downloaded:
+https://github.com/aaronwhippo/ChatGPT-Usage-macapp
+
+VERIFY YOUR DOWNLOAD FIRST
+
+Download the matching .sha256 file alongside the .dmg or .exe. Use the
+checksum for that exact version; older packages may not have one.
+
+Mac (Terminal, from the directory containing both downloaded files):
+  shasum -a 256 -c ChatGPTUsage-<version>.dmg.sha256
+
+Windows (PowerShell, from the download directory):
+  Get-FileHash .\ChatGPTUsage-Setup-<version>.exe -Algorithm SHA256
+Compare the full hash with the one in the matching .exe.sha256 file.
+Replace <version> with the version you downloaded. Do not proceed if the
+hash differs. A matching checksum detects corruption or mismatched files;
+it does not prove publisher identity, absence of malware, or safety if
+both the download and its checksum have been replaced.
+
+MAC: APP-SPECIFIC OPEN ANYWAY
+
+1. Open the DMG and copy ChatGPT Usage to Applications.
+2. Try opening the copied app once. If macOS cannot verify the developer,
+   dismiss the warning.
+3. In System Settings > Privacy & Security, find the blocked-app notice
+   and choose Open Anyway. Confirm Open/authenticate if macOS asks.
+
+This is an exception for the app, not permission to disable Gatekeeper.
+If the exception is unavailable or the Mac is managed, stop and consult
+your administrator. Do not bypass a warning that the app contains malware,
+will damage your computer, or is damaged. Recheck the source and download.
+Apple's guidance: https://support.apple.com/102445
+
+WINDOWS: APP-SPECIFIC SMARTSCREEN EXCEPTION
+
+After checking the download, run the setup .exe. If SmartScreen displays
+"Windows protected your PC" for an unrecognized app, choose More info and
+then Run anyway only if you trust this exact download and that option is
+available. The unsigned publisher may be shown as Unknown publisher.
+
+Do not turn off Defender, SmartScreen, Smart App Control, or antivirus.
+If Windows reports malware, an organization blocks the file, or no Run
+anyway option is offered, stop; these steps do not override those blocks.
+Microsoft's guidance:
+https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/publish-first-app
+
+CODEX AND YOUR ACCOUNT
+
+The app needs the Codex CLI, signed in for your user account. Windows setup
+can optionally download and run the current official OpenAI CLI installer
+over HTTPS. That separate installer is not pinned to this app's version.
+You can decline and install Codex yourself; do not provide credentials to
+an unexpected prompt. The app asks the local CLI for usage data and does
+not itself read or save sign-in tokens. Codex has its own network, storage,
+and privacy behavior.
+
+Privacy: https://github.com/aaronwhippo/ChatGPT-Usage-macapp/blob/main/PRIVACY.md
+Security: https://github.com/aaronwhippo/ChatGPT-Usage-macapp/blob/main/SECURITY.md

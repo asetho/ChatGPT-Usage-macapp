@@ -28,19 +28,27 @@ app="$build_dir/derived-data/Build/Products/Release/ChatGPT Usage.app"
 staging="$build_dir/dmg-root"
 mkdir -p "$staging"
 ditto "$app" "$staging/ChatGPT Usage.app"
+ditto "$root/UNSIGNED-INSTALL.txt" "$staging/UNSIGNED-INSTALL.txt"
+ditto "$root/LICENSE" "$staging/LICENSE"
 ln -s /Applications "$staging/Applications"
 
 mkdir -p "$output_dir"
 dmg="$output_dir/ChatGPTUsage-$version.dmg"
 hdiutil create -volname "ChatGPT Usage" -srcfolder "$staging" -ov -format UDZO "$dmg"
 hdiutil verify "$dmg"
+(
+  cd "$output_dir"
+  shasum -a 256 "${dmg:t}" > "${dmg:t}.sha256"
+)
 
 packages=("$output_dir"/ChatGPTUsage-<->.<->.<->.dmg(N))
-if (( ${#packages} > 3 )); then
+if [[ "${KEEP_OLD_PACKAGES:-0}" != 1 ]] && (( ${#packages} > 3 )); then
   for package in "${packages[@]:0:${#packages}-3}"; do
     rm -f "$package"
+    rm -f "$package.sha256"
     print "Removed old package $package"
   done
 fi
 
 print "Created $dmg"
+print "Created $dmg.sha256"

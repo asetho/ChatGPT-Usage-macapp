@@ -14,6 +14,7 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
+AppMutex=Local\ChatGPTUsage.Windows
 ; The official Codex CLI installer creates managed per-user junctions.
 RedirectionGuard=no
 OutputDir=dist
@@ -21,18 +22,23 @@ OutputBaseFilename=ChatGPTUsage-Setup-{#MyAppVersion}
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern
+InfoBeforeFile=..\UNSIGNED-INSTALL.txt
 
 [Files]
 Source: "InstallerPayload\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\UNSIGNED-INSTALL.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\Assets\ChatGPTUsage.ico"; IconIndex: 0
+Name: "{group}\Installation and security notice"; Filename: "{app}\UNSIGNED-INSTALL.txt"
+Name: "{group}\MIT License"; Filename: "{app}\LICENSE"
 
 [InstallDelete]
 Type: files; Name: "{userprograms}\ChatGPT Usage.lnk"
 
 [Registry]
-Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "ChatGPT Usage"; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "ChatGPT Usage"; ValueData: """{app}\{#MyAppExeName}"""; Flags: uninsdeletevalue
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch {#MyAppName}"; Flags: nowait postinstall skipifsilent
