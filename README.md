@@ -8,9 +8,24 @@ This is an unofficial local companion and is not distributed by OpenAI.
 
 The app launches the locally installed `codex app-server` and reuses Codex's existing ChatGPT sign-in. It does not read, copy, or store authentication tokens.
 
+## Screenshots
+
+<table>
+  <tr>
+    <th>macOS menu</th>
+    <th>Windows popup</th>
+    <th>Windows widget</th>
+  </tr>
+  <tr>
+    <td valign="top"><img src="Artwork/Screenshots/macos-menu.png" alt="Expanded macOS ChatGPT Usage menu showing demo usage percentages, reset times, additional limits, and token usage" width="280"></td>
+    <td valign="top"><img src="Artwork/Screenshots/windows-popup.png" alt="Expanded Windows ChatGPT Usage popup showing usage percentages, reset dates, expanded additional limits and token usage, and refresh controls" width="280"></td>
+    <td valign="top"><img src="Artwork/Screenshots/windows-widget.png" alt="Windows ChatGPT Usage floating widget showing a demo usage percentage" width="220"></td>
+  </tr>
+</table>
+
 ## Installation and privacy
 
-Download only from [this repository](https://github.com/asetho/ChatGPT-Usage-macapp). Compare the download with its matching `.sha256` file before opening it; instructions are in [UNSIGNED-INSTALL.txt](UNSIGNED-INSTALL.txt). A checksum detects a mismatch but is not a publisher signature or a malware check.
+Download only from [this repository](https://github.com/asetho/ChatGPT-Usage). Compare the download with its matching `.sha256` file before opening it; instructions are in [UNSIGNED-INSTALL.txt](UNSIGNED-INSTALL.txt). A checksum detects a mismatch but is not a publisher signature or a malware check.
 
 The app requires a working, signed-in Codex CLI for the same user account. Windows setup offers to install the official CLI if it cannot find one; signing in is a separate step. That option downloads and runs OpenAI's current installer over HTTPS, so its contents can change independently of this app. You can decline it and install Codex yourself. Only set `CODEX_EXECUTABLE` to a binary you trust.
 
