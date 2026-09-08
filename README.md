@@ -12,11 +12,13 @@ The app launches the locally installed `codex app-server` and reuses Codex's exi
 
 <table>
   <tr>
+    <th>macOS menu bar</th>
     <th>macOS menu</th>
     <th>Windows popup</th>
     <th>Windows widget</th>
   </tr>
   <tr>
+    <td valign="top"><img src="Artwork/Screenshots/macos-menubar.png" alt="macOS ChatGPT Usage menu-bar icon showing the remaining usage percentage" width="136"></td>
     <td valign="top"><img src="Artwork/Screenshots/macos-menu.png" alt="Expanded macOS ChatGPT Usage menu showing demo usage percentages, reset times, additional limits, and token usage" width="280"></td>
     <td valign="top"><img src="Artwork/Screenshots/windows-popup.png" alt="Expanded Windows ChatGPT Usage popup showing usage percentages, reset dates, expanded additional limits and token usage, and refresh controls" width="280"></td>
     <td valign="top"><img src="Artwork/Screenshots/windows-widget.png" alt="Windows ChatGPT Usage floating widget showing a demo usage percentage" width="220"></td>
