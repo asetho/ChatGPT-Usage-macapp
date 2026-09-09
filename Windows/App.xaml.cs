@@ -11,6 +11,7 @@ public partial class App : System.Windows.Application
     private MainWindow? mainWindow;
     private UsageWidget? usageWidget;
     private DispatcherTimer? refreshTimer;
+    private DispatcherTimer? updateCheckTimer;
     private Mutex? instanceMutex;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -69,7 +70,15 @@ public partial class App : System.Windows.Application
         refreshTimer.Tick += (_, _) => _ = usage.RefreshInBackgroundAsync();
         refreshTimer.Start();
 
+        updateCheckTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromHours(12)
+        };
+        updateCheckTimer.Tick += (_, _) => _ = usage.CheckForUpdatesAsync();
+        updateCheckTimer.Start();
+
         _ = usage.RefreshAsync();
+        _ = usage.CheckForUpdatesAsync();
     }
 
     public void ExitApplication()
@@ -82,6 +91,7 @@ public partial class App : System.Windows.Application
     protected override void OnExit(ExitEventArgs e)
     {
         refreshTimer?.Stop();
+        updateCheckTimer?.Stop();
         notifyIcon?.Dispose();
         instanceMutex?.ReleaseMutex();
         instanceMutex?.Dispose();

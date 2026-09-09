@@ -7,6 +7,28 @@
     <Border Background="#14171D" BorderBrush="#414650" BorderThickness="1" CornerRadius="14" Padding="18">
         <DockPanel LastChildFill="True">
             <StackPanel DockPanel.Dock="Bottom" Margin="0,14,0,0">
+                <Button Visibility="{Binding UpdateAvailableVisibility}" Click="OpenUpdate_Click"
+                        Padding="0" Margin="0,0,0,12" HorizontalContentAlignment="Stretch"
+                        Background="Transparent" BorderThickness="0" Foreground="#F0F1F4"
+                        AutomationProperties.Name="Update available"
+                        AutomationProperties.HelpText="Opens the GitHub release page in the default browser">
+                    <Border Background="#202A38" BorderBrush="#3B82F6" BorderThickness="1" CornerRadius="8" Padding="10,8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="↓" Foreground="#60A5FA" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <StackPanel Grid.Column="1" Margin="9,0">
+                                <TextBlock Text="Update available" FontSize="14" FontWeight="SemiBold" Foreground="#F0F1F4" />
+                                <TextBlock Text="{Binding UpdateDescription}" FontSize="12" Foreground="#B4B8C0" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="2" Text="↗" Foreground="#B4B8C0" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </Button>
+
                 <Separator Background="#414650" />
                 <Grid Margin="0,12,0,0">
                     <StackPanel Orientation="Horizontal">

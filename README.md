@@ -14,19 +14,19 @@ The apps launch a local `codex app-server` process and reuse Codex's existing Ch
 
 <table>
   <tr>
-    <th>macOS menu bar</th>
     <th>macOS menu</th>
-  </tr>
-  <tr>
-    <td valign="top"><img src="Artwork/Screenshots/macos-menubar.png" alt="macOS ChatGPT Usage menu-bar icon showing the remaining usage percentage" width="136"></td>
-    <td valign="top"><img src="Artwork/Screenshots/macos-menu.png" alt="Expanded macOS ChatGPT Usage menu showing demo usage percentages, reset times, additional limits, and token usage" width="280"></td>
-  </tr>
-  <tr>
     <th>Windows popup</th>
+  </tr>
+  <tr>
+    <td valign="top"><img src="Artwork/Screenshots/macos-menu.png" alt="Expanded macOS ChatGPT Usage menu showing demo usage percentages, reset times, additional limits, and token usage" width="280"></td>
+    <td valign="top"><img src="Artwork/Screenshots/windows-popup.png" alt="Expanded Windows ChatGPT Usage popup showing usage percentages, reset dates, expanded additional limits and token usage, and refresh controls" width="280"></td>
+  </tr>
+  <tr>
+    <th>macOS menu bar</th>
     <th>Windows widget</th>
   </tr>
   <tr>
-    <td valign="top"><img src="Artwork/Screenshots/windows-popup.png" alt="Expanded Windows ChatGPT Usage popup showing usage percentages, reset dates, expanded additional limits and token usage, and refresh controls" width="280"></td>
+    <td valign="top"><img src="Artwork/Screenshots/macos-menubar.png" alt="macOS ChatGPT Usage menu-bar icon showing 86% remaining beside Spotlight" width="280"></td>
     <td valign="top"><img src="Artwork/Screenshots/windows-widget.png" alt="Windows ChatGPT Usage floating widget showing a demo usage percentage" width="220"></td>
   </tr>
 </table>
@@ -71,6 +71,8 @@ For platform-specific unsigned-app warnings and checksum guidance, read [UNSIGNE
 ## Privacy and limitations
 
 The optional Windows Codex installation downloads and runs OpenAI's current installer over HTTPS, so its contents can change independently of this app. Only set `CODEX_EXECUTABLE` to a binary you trust.
+
+Both apps check this repository's latest published GitHub release at launch and every 12 hours while running. When a newer version exists, the popup provides a link to its release page; failed checks are silent.
 
 See [Privacy](PRIVACY.md) for local data and subprocess behavior, and [Security](SECURITY.md) for reporting concerns. The app uses experimental Codex API capabilities; compatibility can change when Codex updates. Usage figures may be unavailable or stale and should be confirmed in the official dashboard.
 

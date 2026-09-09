@@ -133,28 +133,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func loadChatGPTMenuBarIcon() -> NSImage? {
-        guard let appURL = NSWorkspace.shared.urlForApplication(
-            withBundleIdentifier: "com.openai.codex"
-        ) else {
-            return NSImage(
-                systemSymbolName: "message.fill",
-                accessibilityDescription: "ChatGPT"
-            )
-        }
-
-        let iconURL = appURL
-            .appendingPathComponent("Contents", isDirectory: true)
-            .appendingPathComponent("Resources", isDirectory: true)
-            .appendingPathComponent("chatgptTemplate@2x.png")
-
-        guard let image = NSImage(contentsOf: iconURL) else {
-            return NSImage(
-                systemSymbolName: "message.fill",
-                accessibilityDescription: "ChatGPT"
-            )
-        }
-
+        guard let image = NSImage(named: "ChatGPTMenuBarIcon") else { return nil }
         image.size = NSSize(width: 18, height: 18)
+        image.accessibilityDescription = "ChatGPT"
         return image
     }
 

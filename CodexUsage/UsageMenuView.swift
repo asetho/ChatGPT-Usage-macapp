@@ -25,6 +25,11 @@ struct UsageMenuView: View {
                 errorBanner(error)
             }
 
+            if let update = store.availableUpdate {
+                Divider()
+                updateBanner(update)
+            }
+
             Divider()
             footer
         }
@@ -163,6 +168,38 @@ struct UsageMenuView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(12)
+    }
+
+    private func updateBanner(_ update: AvailableUpdate) -> some View {
+        Button {
+            NSWorkspace.shared.open(update.releaseURL)
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "arrow.down.circle.fill")
+                    .font(.system(size: 18))
+                    .foregroundStyle(.blue)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Update available")
+                        .font(.callout.weight(.semibold))
+                    Text("Version \(update.version) · View release")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "arrow.up.forward")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .contentShape(Rectangle())
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Update available, version \(update.version)")
+        .accessibilityHint("Opens the GitHub release page")
     }
 
     private var footer: some View {

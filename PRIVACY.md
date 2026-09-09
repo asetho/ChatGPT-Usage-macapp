@@ -6,6 +6,8 @@ The app keeps the returned usage snapshot and error state in memory and displays
 
 Opening the usage dashboard opens `https://chatgpt.com/codex/settings/usage` in your browser. Sign-in, purchases, and reset actions there are handled by the external site; this app does not perform them automatically.
 
+At launch and every 12 hours while running, the app makes one unauthenticated HTTPS request to GitHub's public latest-release API for this repository. The request does not include GitHub or Codex credentials. GitHub receives ordinary connection information such as your IP address and the app's user-agent string. A failed update check is ignored, and selecting an update notice opens that release page in your browser.
+
 Windows setup offers an optional Codex CLI installation. It downloads and executes OpenAI's current HTTPS installer, which can change independently of this app. Setup records its output at `%LOCALAPPDATA%\Temp\ChatGPTUsage-CodexInstall.log`. The log is deleted after installation succeeds and the CLI is found, but kept for troubleshooting on failure. Its contents depend on the external installer. Review and redact logs before sharing them; never include tokens, passwords, account identifiers, or other private information in a public issue.
 
 Windows setup installs the companion per user and adds a per-user startup entry, removed by the uninstaller. Uninstalling the companion does not remove the separately installed Codex CLI, its sign-in state, or a retained failure log. Use the CLI's own documented account/removal workflow if you also want to remove it.

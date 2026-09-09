@@ -15,8 +15,12 @@ public sealed class UsageViewModel : INotifyPropertyChanged
     private string resetTitle = "Open ChatGPT Usage";
     private string errorMessage = "";
     private string refreshStatus = "";
+    private string updateDescription = "";
+    private string? updateUrl;
     private Visibility additionalLimitsVisibility = Visibility.Collapsed;
     private Visibility tokenUsageVisibility = Visibility.Collapsed;
+    private Visibility updateAvailableVisibility = Visibility.Collapsed;
+    private bool isCheckingForUpdates;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -30,13 +34,46 @@ public sealed class UsageViewModel : INotifyPropertyChanged
     public string ResetTitle { get => resetTitle; private set => Set(ref resetTitle, value); }
     public string ErrorMessage { get => errorMessage; private set => Set(ref errorMessage, value); }
     public string RefreshStatus { get => refreshStatus; private set => Set(ref refreshStatus, value); }
+    public string UpdateDescription { get => updateDescription; private set => Set(ref updateDescription, value); }
+    public string? UpdateUrl { get => updateUrl; private set => Set(ref updateUrl, value); }
     public Visibility AdditionalLimitsVisibility { get => additionalLimitsVisibility; private set => Set(ref additionalLimitsVisibility, value); }
     public Visibility TokenUsageVisibility { get => tokenUsageVisibility; private set => Set(ref tokenUsageVisibility, value); }
+    public Visibility UpdateAvailableVisibility { get => updateAvailableVisibility; private set => Set(ref updateAvailableVisibility, value); }
     public string TrayText => $"ChatGPT Usage: {FiveHourRemaining} remaining";
 
     public Task RefreshAsync() => RefreshAsync(showErrors: true);
 
     public Task RefreshInBackgroundAsync() => RefreshAsync(showErrors: false);
+
+    public async Task CheckForUpdatesAsync()
+    {
+        if (isCheckingForUpdates) return;
+
+        isCheckingForUpdates = true;
+        try
+        {
+            var update = await UpdateCheckService.FetchAvailableUpdateAsync(UpdateCheckService.CurrentVersion);
+            if (update is null)
+            {
+                UpdateAvailableVisibility = Visibility.Collapsed;
+                UpdateDescription = "";
+                UpdateUrl = null;
+                return;
+            }
+
+            UpdateDescription = $"Version {update.Version} · View release";
+            UpdateUrl = update.ReleaseUrl;
+            UpdateAvailableVisibility = Visibility.Visible;
+        }
+        catch
+        {
+            // Update checks never interfere with usage refreshes.
+        }
+        finally
+        {
+            isCheckingForUpdates = false;
+        }
+    }
 
     private async Task RefreshAsync(bool showErrors)
     {

@@ -1,6 +1,42 @@
 import XCTest
 @testable import CodexUsage
 
+final class UpdateCheckServiceTests: XCTestCase {
+    func testFindsNewerGitHubRelease() throws {
+        let data = Data(
+            #"{"tag_name":"v1.0.19","html_url":"https://github.com/asetho/ChatGPT-Usage/releases/tag/v1.0.19"}"#.utf8
+        )
+
+        let update = UpdateCheckService.availableUpdate(from: data, currentVersion: "1.0.18")
+
+        XCTAssertEqual(update?.version, "1.0.19")
+        XCTAssertEqual(
+            update?.releaseURL.absoluteString,
+            "https://github.com/asetho/ChatGPT-Usage/releases/tag/v1.0.19"
+        )
+    }
+
+    func testIgnoresCurrentOrOlderRelease() throws {
+        let current = Data(
+            #"{"tag_name":"v1.0.18","html_url":"https://github.com/asetho/ChatGPT-Usage/releases/tag/v1.0.18"}"#.utf8
+        )
+        let older = Data(
+            #"{"tag_name":"v1.0.17","html_url":"https://github.com/asetho/ChatGPT-Usage/releases/tag/v1.0.17"}"#.utf8
+        )
+
+        XCTAssertNil(UpdateCheckService.availableUpdate(from: current, currentVersion: "1.0.18"))
+        XCTAssertNil(UpdateCheckService.availableUpdate(from: older, currentVersion: "1.0.18"))
+    }
+
+    func testRejectsUnexpectedReleaseHost() throws {
+        let data = Data(
+            #"{"tag_name":"v1.0.19","html_url":"https://example.com/download"}"#.utf8
+        )
+
+        XCTAssertNil(UpdateCheckService.availableUpdate(from: data, currentVersion: "1.0.18"))
+    }
+}
+
 final class UsageModelsTests: XCTestCase {
     func testRemainingPercentageIsClamped() {
         XCTAssertEqual(RateLimitWindow(usedPercent: 27, windowDurationMins: 300, resetsAt: nil).remainingPercent, 73)

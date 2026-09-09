@@ -40,6 +40,14 @@ public partial class MainWindow : Window
 
     private void OpenUsage_Click(object sender, RoutedEventArgs e) => OpenUrl("https://chatgpt.com/codex/settings/usage");
 
+    private void OpenUpdate_Click(object sender, RoutedEventArgs e)
+    {
+        if (((UsageViewModel)DataContext).UpdateUrl is { } url)
+        {
+            OpenUrl(url);
+        }
+    }
+
     private void Close_Click(object sender, RoutedEventArgs e) => Hide();
 
     private void Quit_Click(object sender, RoutedEventArgs e) => ((App)System.Windows.Application.Current).ExitApplication();
