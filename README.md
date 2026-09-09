@@ -27,7 +27,7 @@ The apps launch a local `codex app-server` process and reuse Codex's existing Ch
   </tr>
   <tr>
     <td align="center" valign="top"><img src="Artwork/Screenshots/macos-menubar.png" alt="macOS ChatGPT Usage menu-bar icon showing 86% remaining beside Spotlight" width="236"></td>
-    <td align="center" valign="top"><img src="Artwork/Screenshots/windows-widget.png" alt="Windows ChatGPT Usage floating widget showing a demo usage percentage" width="220"></td>
+    <td align="center" valign="top"><img src="Artwork/Screenshots/windows-widget.png" alt="Windows ChatGPT Usage floating widget showing a demo usage percentage" width="180"></td>
   </tr>
 </table>
 
