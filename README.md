@@ -12,22 +12,22 @@ The apps launch a local `codex app-server` process and reuse Codex's existing Ch
 
 ## Screenshots
 
-<table>
+<table align="center">
   <tr>
     <th>macOS menu</th>
     <th>Windows popup</th>
   </tr>
   <tr>
-    <td valign="top"><img src="Artwork/Screenshots/macos-menu.png" alt="Expanded macOS ChatGPT Usage menu showing demo usage percentages, reset times, additional limits, and token usage" width="280"></td>
-    <td valign="top"><img src="Artwork/Screenshots/windows-popup.png" alt="Expanded Windows ChatGPT Usage popup showing usage percentages, reset dates, expanded additional limits and token usage, and refresh controls" width="280"></td>
+    <td align="center" valign="top"><img src="Artwork/Screenshots/macos-menu.png" alt="Expanded macOS ChatGPT Usage menu showing demo usage percentages, reset times, additional limits, and token usage" width="280"></td>
+    <td align="center" valign="top"><img src="Artwork/Screenshots/windows-popup.png" alt="Expanded Windows ChatGPT Usage popup showing usage percentages, reset dates, expanded additional limits and token usage, and refresh controls" width="280"></td>
   </tr>
   <tr>
     <th>macOS menu bar</th>
     <th>Windows widget</th>
   </tr>
   <tr>
-    <td valign="top"><img src="Artwork/Screenshots/macos-menubar.png" alt="macOS ChatGPT Usage menu-bar icon showing 86% remaining beside Spotlight" width="280"></td>
-    <td valign="top"><img src="Artwork/Screenshots/windows-widget.png" alt="Windows ChatGPT Usage floating widget showing a demo usage percentage" width="220"></td>
+    <td align="center" valign="top"><img src="Artwork/Screenshots/macos-menubar.png" alt="macOS ChatGPT Usage menu-bar icon showing 86% remaining beside Spotlight" width="236"></td>
+    <td align="center" valign="top"><img src="Artwork/Screenshots/windows-widget.png" alt="Windows ChatGPT Usage floating widget showing a demo usage percentage" width="220"></td>
   </tr>
 </table>
 
